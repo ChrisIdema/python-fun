@@ -34,19 +34,19 @@ while key != ESC:
     event = win.getch()
     key = event if event != -1 else prev_key
 
-    if key not in [ord('w'),ord('s'),ord('a'),ord('d'),curses.KEY_C2,curses.KEY_A2,curses.KEY_B1,curses.KEY_B3,curses.KEY_LEFT, curses.KEY_RIGHT, curses.KEY_UP, curses.KEY_DOWN, ESC]:
+    if key not in [ord('w'),ord('s'),ord('a'),ord('d'),456,450,452,454,curses.KEY_LEFT, curses.KEY_RIGHT, curses.KEY_UP, curses.KEY_DOWN, ESC]:
         key = prev_key
 
     # calculate the next coordinates
     y = snake[0][0]
     x = snake[0][1]
-    if key in [curses.KEY_DOWN,ord('s'),curses.KEY_C2]:
+    if key in [curses.KEY_DOWN,ord('s'),456]:
         y += 1
-    elif key in [curses.KEY_UP,ord('w'),curses.KEY_A2]:
+    elif key in [curses.KEY_UP,ord('w'),450]:
         y -= 1
-    elif key in [curses.KEY_LEFT,ord('a'),curses.KEY_B1]:
+    elif key in [curses.KEY_LEFT,ord('a'),452]:
         x -= 1
-    elif key in [curses.KEY_RIGHT,ord('d'),curses.KEY_B3]:
+    elif key in [curses.KEY_RIGHT,ord('d'),454]:
         x += 1
 
     snake.insert(0, (y, x)) # append O(n)
