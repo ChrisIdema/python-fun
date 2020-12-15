@@ -1,5 +1,7 @@
 import curses 
 from random import randint
+import signal
+import sys
 
 #constants
 
@@ -22,6 +24,12 @@ if WIDE_MODE:
     win = curses.newwin(WINDOW_HEIGHT, WINDOW_WIDTH*2-2, 0, 0) # rows, columns
 else:
     win = curses.newwin(WINDOW_HEIGHT, WINDOW_WIDTH, 0, 0) # rows, columns
+    
+# allow window to be properly cleared when program is exited with ctrl+c   
+def signal_handler(sig, frame):
+    curses.endwin()
+    sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
     
 def write_block(y,x,c):    
     if WIDE_MODE:            
