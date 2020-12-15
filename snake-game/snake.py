@@ -116,3 +116,4 @@ while key != ESC:
 
 curses.endwin()
 print(f"Final score = {score}")
+
