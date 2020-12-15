@@ -3,6 +3,8 @@ from random import randint
 
 #constants
 
+WIDE_MODE = True
+
 WINDOW_WIDTH = 60  # number of columns of window box 
 WINDOW_HEIGHT = 20 # number of rows of window box 
 '''
@@ -12,9 +14,21 @@ Number of blocks in window per column = WINDOW_HEIGHT -2.
 Block y index ranges from 1 to WINDOW_HEIGHT -2.
 '''
 
+
+
 # setup window
 curses.initscr()
-win = curses.newwin(WINDOW_HEIGHT, WINDOW_WIDTH, 0, 0) # rows, columns
+if WIDE_MODE:
+    win = curses.newwin(WINDOW_HEIGHT, WINDOW_WIDTH*2-2, 0, 0) # rows, columns
+else:
+    win = curses.newwin(WINDOW_HEIGHT, WINDOW_WIDTH, 0, 0) # rows, columns
+    
+def write_block(y,x,c):    
+    if WIDE_MODE:            
+        win.addch(y, x*2-1,c)
+    else:
+        win.addch(y, x,c)
+
 win.keypad(1)
 curses.noecho()
 curses.curs_set(0)
@@ -25,7 +39,7 @@ win.nodelay(1) # -1
 snake = [(4, 4), (4, 3), (4, 2)]
 food = (6, 6)
 
-win.addch(food[0], food[1], '#')
+write_block(food[0], food[1], '#')
 # game logic
 score = 0
 
@@ -74,13 +88,13 @@ while key != ESC:
             food = (randint(1,WINDOW_HEIGHT-2), randint(1,WINDOW_WIDTH -2))
             if food in snake:
                 food = ()
-        win.addch(food[0], food[1], '#')
+        write_block(food[0], food[1], '#')
     else:
         # move snake
         last = snake.pop()
-        win.addch(last[0], last[1], ' ')
+        write_block(last[0], last[1], ' ')            
+    write_block(snake[0][0], snake[0][1], '*')
 
-    win.addch(snake[0][0], snake[0][1], '*')
 
 curses.endwin()
 print(f"Final score = {score}")
