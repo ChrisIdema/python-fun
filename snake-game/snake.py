@@ -21,7 +21,7 @@ Block y index ranges from 1 to WINDOW_HEIGHT -2.
 # setup window
 curses.initscr()
 if WIDE_MODE:
-    win = curses.newwin(WINDOW_HEIGHT, WINDOW_WIDTH*2-2, 0, 0) # rows, columns
+    win = curses.newwin(WINDOW_HEIGHT, WINDOW_WIDTH*2-3, 0, 0) # rows, columns
 else:
     win = curses.newwin(WINDOW_HEIGHT, WINDOW_WIDTH, 0, 0) # rows, columns
     
@@ -43,6 +43,16 @@ curses.curs_set(0)
 win.border(0)
 win.nodelay(1) # -1
 
+# overwrite top and bottom borders so their margins are similar to sides
+if WIDE_MODE:
+    win.addstr(0, 0, ' '+'_'*(WINDOW_WIDTH*2-5)+' ')
+    # write overline character
+    win.insstr(WINDOW_HEIGHT-1, 0, ' ' +chr(175)*(WINDOW_WIDTH*2-5)+' ')
+else:
+    win.addstr(0, 0, ' '+'_'*(WINDOW_WIDTH-2)+' ')
+    # write overline charater, use insstr to prevent scroll error
+    win.insstr(WINDOW_HEIGHT-1, 0, ' '+chr(175)*(WINDOW_WIDTH-2)+' ') 
+ 
 # snake and food
 snake = [(4, 4), (4, 3), (4, 2)]
 food = (6, 6)
